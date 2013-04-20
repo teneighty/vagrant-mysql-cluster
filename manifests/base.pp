@@ -11,13 +11,13 @@ class cluster_pkg {
 
   exec { 'extract-cluster':
     path    => ['/bin', '/usr/bin'],
-    command => 'tar -C /usr/local -zxvf /puppet/mysql-cluster-gpl-7.2.6-linux2.6-x86_64.tar.gz',
+    command => 'tar -C /usr/local -zxvf /puppet/mysql-cluster-gpl-7.2.12-linux2.6-x86_64.tar.gz',
     unless  => 'file /usr/local/mysql 2>/dev/null'
   } 
 
   file { '/usr/local/mysql':
     ensure => link,
-    target => 'mysql-cluster-gpl-7.2.6-linux2.6-x86_64'
+    target => 'mysql-cluster-gpl-7.2.12-linux2.6-x86_64'
   }
 
   file { '/etc/bash.bashrc':
