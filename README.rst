@@ -32,6 +32,7 @@ this may take some time.
 form the mangement node you can see if everything is connected correctly
 
 ::
+
     cd mgmt && vagrant ssh
 
     ndb_mgm -e show
