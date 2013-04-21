@@ -50,6 +50,14 @@ form the mangement node you can see if everything is connected correctly
     id=5    @192.168.33.30  (mysql-5.5.30 ndb-7.2.12)
 
 
+or you want to connect to one the two api nodes
+
+::
+
+    cd node1 && vagrant ssh
+    mysql -u root
+
+
 if you are done you may want to shutdown the machines
 
 ::
