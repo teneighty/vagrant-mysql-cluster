@@ -16,7 +16,7 @@ checkout this into a project
 
 ::
 
-    git clone git@github.com:sassman/vagrant-mysql-cluster.git
+    git clone git://github.com/sassman/vagrant-mysql-cluster.git
 
 
 lets build the machines and grab the mysql cluster direct from oracle
