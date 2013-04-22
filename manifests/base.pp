@@ -11,13 +11,13 @@ class cluster_pkg {
 
   exec { 'extract-cluster':
     path    => ['/bin', '/usr/bin'],
-    command => 'tar -C /usr/local -zxvf /puppet/mysql-cluster-gpl-7.2.6-linux2.6-x86_64.tar.gz',
+    command => 'tar -C /usr/local -zxvf /puppet/mysql-cluster-gpl-7.2.12-linux2.6-x86_64.tar.gz',
     unless  => 'file /usr/local/mysql 2>/dev/null'
-  } 
+  }
 
   file { '/usr/local/mysql':
     ensure => link,
-    target => 'mysql-cluster-gpl-7.2.6-linux2.6-x86_64'
+    target => 'mysql-cluster-gpl-7.2.12-linux2.6-x86_64'
   }
 
   file { '/etc/bash.bashrc':
@@ -93,7 +93,13 @@ class cluster {
   exec { 'service mysql start':
     path    => ['/bin', '/usr/bin'],
     command => 'service mysql start',
+  } ->
+
+  mysqldb { "myapp":
+    user        => "myappuser",
+    password    => "5uper5secret",
   }
+
 }
 
 node 'node1' {
@@ -120,6 +126,15 @@ node 'mgmt' {
   exec { 'ndb_mgmd' :
     path    => ['/usr/local/mysql/bin'],
     command => 'ndb_mgmd -f /var/lib/mysql-cluster/config.ini --configdir /var/lib/mysql-cluster',
+  }
+}
+
+define mysqldb( $user, $password ) {
+  exec { "create-${name}-db":
+    unless  => "mysql -u${user} -p${password} ${name}",
+    path    => ['/bin', '/usr/bin', '/usr/local/mysql/bin'],
+    command => "mysql -uroot -e \"create database ${name}; grant all on ${name}.* to ${user}@'%' identified by '${password}';\"",
+    require => Exec["service mysql start"],
   }
 }
 
